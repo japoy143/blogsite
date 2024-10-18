@@ -1,5 +1,5 @@
 <?php
-include("./models/intoduction.php");
+include("./models/blogType.php");
 
 ?>
 

@@ -40,19 +40,24 @@ if (isset($_POST['logout'])) {
                 <a href="./home.php">Home</a>
                 <a href="./featured.php">Featured</a>
                 <a href="./categories.php">Categories</a>
+                <a href="./create_blogs.php">Create Blogs</a>
             </li>
-            <li>
-                <div id="login-sigup-container">
+            <li id="login-signup">
+                <p id="user-account"><?php echo htmlspecialchars($username) ?></p>
+                <div id="login-signup-container">
                     <a href="./templates/forms/signup.php">Sign Up</a>
                     <a href="./templates/forms/login.php">Login</a>
                     <img class=" menu-icon" src="./assets/icons/menu.svg" id="menu-icon-button">
                 </div>
-                <p id="user-account"><?php echo htmlspecialchars($username) ?></p>
+
             </li>
         </ul>
     </nav>
 
     <div id="user-actions">
+        <a href="./home.php">Home</a>
+        <a href="./featured.php">Featured</a>
+        <a href="./categories.php">Categories</a>
         <form action="" method="post">
             <input type="submit" name="account" value="Account">
             <input type="submit" name="logout" value="Logout">
@@ -66,6 +71,8 @@ if (isset($_POST['logout'])) {
                 <a href="">Home</a>
                 <a href="">Featured</a>
                 <a href="">Categories</a>
+                <a href="">Account</a>
+                <a href="">Logout</a>
             </li>
         </ul>
     </div>

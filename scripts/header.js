@@ -22,7 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const headerBody = document.getElementById("landing-page");
   const linkItems = document.getElementById("link-items");
-  const loginSignupContainer = document.getElementById("login-sigup-container");
+  const loginSignupContainer = document.getElementById(
+    "login-signup-container"
+  );
   const userAccount = document.getElementById("user-account");
 
   headerBody.childNodes.forEach(function (e) {
@@ -51,10 +53,19 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("click");
   });
 
+  //login & signup visibility
+  const loginAndSignupVisibility = document.getElementById("login-signup");
 
   headerBody.childNodes.forEach(function (e) {
     if (e.nodeName == "MAIN") {
       let navItem = e.className; // class=Home, Featured, Categories
+
+      if (navItem === "landing-container") {
+        menuIconButton.style.display = "none";
+        loginSignupContainer.style.visibility = "visible";
+      } else {
+        loginSignupContainer.style.display = "none";
+      }
 
       linkItems.childNodes.forEach(function (e) {
         //innerHTML =Home, Featured, Categories
