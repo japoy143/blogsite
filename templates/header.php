@@ -58,6 +58,7 @@ if (isset($_POST['logout'])) {
         <a href="./home.php">Home</a>
         <a href="./featured.php">Featured</a>
         <a href="./categories.php">Categories</a>
+        <a href="./create_blogs.php">Create Blogs</a>
         <form action="" method="post">
             <input type="submit" name="account" value="Account">
             <input type="submit" name="logout" value="Logout">

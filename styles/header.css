@@ -221,7 +221,7 @@ body {
   position: absolute;
   border-radius: 4px;
   z-index: 10;
-  padding: 10px 30px;
+  padding: 10px 60px 10px 20px;
   background-color: var(--input--color);
   right: 0;
   margin-right: 20px;
@@ -534,6 +534,22 @@ body {
   border: gray solid 2px;
 }
 
+.save-blogs {
+  position: fixed;
+  bottom: 50px;
+  right: 220px;
+}
+
+.blogs-button {
+  background-color: #e78f81;
+  border: none;
+  padding: 10px 10px;
+  border-radius: 4px;
+  color: white;
+  font-weight: 600;
+  margin: 4px 4px;
+}
+
 /* breakpoints */
 /* small 480 */
 /* medium 760 */
@@ -587,6 +603,22 @@ body {
   .circles {
     height: 500px;
   }
+
+  .save-blogs {
+    position: fixed;
+    bottom: 50px;
+    right: 240px;
+  }
+
+  .blogs-button {
+    background-color: #e78f81;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    color: white;
+    font-weight: 600;
+    margin: 4px 4px;
+  }
 }
 
 @media screen and (min-width: 1280px) {
@@ -614,5 +646,21 @@ body {
 
   .circles {
     height: 600px;
+  }
+
+  .blogs-button {
+    background-color: #e78f81;
+    border: none;
+    padding: 10px 40px;
+    border-radius: 4px;
+    color: white;
+    font-weight: 600;
+    margin: 4px 4px;
+  }
+
+  .save-blogs {
+    position: fixed;
+    bottom: 50px;
+    right: 310px;
   }
 }
