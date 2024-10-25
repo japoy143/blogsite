@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const images = "./assets/icons/image.svg";
+
   //create blogs button
   const addBlogsButton = document.getElementById("create-blog-button");
 
@@ -17,11 +19,12 @@ document.addEventListener("DOMContentLoaded", function () {
    
    <div class='intro-input-container'>
       <input type='text' name='introcategory' placeholder='category' for='intro-category'>
-
+      <input type='text' name='introsubtitle' placeholder='subtitle' for='intro-category'>
    </div>
 
     <div class='intro-image-container'>
-    <img src='./assets/icons/image.svg' height='60' >
+    <img src="${images}" height='60' >
+
     <input type="file" for='intro-image' name='introimg'>
     </div>
 
@@ -61,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const Image = ` <div class='image-container'>
     <h3>Image</h3>
     <div class='image-border'>
-     <img src='./assets/icons/image.svg' height='60' >
+     <img src="${images}" height='60' >
    <input type='file' name='image${imageCounter}' placeholder='image'>
     </div>
 
@@ -75,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
     <div class='section-border'>
       <input type='text' name='sectiontitle${sectionCounter}' placeholder='sectiontitle' for='section'>
 <div class='section-img-container'>
-    <img src='./assets/icons/image.svg' height='60' >
+    <img src="${images}" height='60' >
    <input type='file' name='sectionimage${sectionCounter}' placeholder='image'>
    </div>
 
@@ -93,6 +96,8 @@ document.addEventListener("DOMContentLoaded", function () {
   function updateBlogPostion(blogpos) {
     document.cookie = `blogposition=${encodeURIComponent(blogpos)}`;
   }
+
+  updateBlogPostion(blogPostions);
 
   addBlogsButton.childNodes.forEach(function (element) {
     element.addEventListener("click", function (e) {
@@ -128,6 +133,4 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
   });
-
-  console.log(document.cookie);
 });

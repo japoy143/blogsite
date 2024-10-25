@@ -12,11 +12,12 @@ include('./models/blogType.php');
 
 
 
+
 if (isset($_POST['submit'])) {
     $positions =  $_COOKIE['blogposition'];
     $splittedData = explode(',', $positions);
 
-    print_r($splittedData);
+
     $categories = [
         '0' => 'Introduction',
         '1' => 'Header',
@@ -24,6 +25,9 @@ if (isset($_POST['submit'])) {
         '3' => 'Image',
         '4' => 'Section'
     ];
+
+
+
 
     $counter = [0, 0, 0, 0];
 
@@ -37,7 +41,7 @@ if (isset($_POST['submit'])) {
     } else {
         echo 'Query error:' . mysqli_error($conn);
     }
-
+    setcookie('blogposition', '');
     foreach ($splittedData as $pos) {
 
 
@@ -45,13 +49,47 @@ if (isset($_POST['submit'])) {
             case 'Introduction':
                 $title = mysqli_real_escape_string($conn, $_POST['introtitle']);
                 $category = mysqli_real_escape_string($conn, $_POST['introcategory']);
-                $image_path = mysqli_real_escape_string($conn, $_POST['introimg']);
+                $subtitle = mysqli_real_escape_string($conn, $_POST['introsubtitle']);
+                $image_path = "";
                 $body =  mysqli_real_escape_string($conn, $_POST['introcontent']);
                 $post_id =
                     mysqli_real_escape_string($conn, $random_generated_Id);
 
 
-                $sql = "INSERT INTO introduction(title,category,image_path,body,post_id) VALUES ('$title','$category','$image_path','$body',$post_id)";
+
+                //file image 
+                $file_name = $_FILES['introimg']['name'];
+                $tmp_name = $_FILES['introimg']['tmp_name'];
+                $folder = "blogs_images/introduction_images/" . $file_name;
+
+                //get type
+                $file_type = $_FILES['introimg']['type'];
+                $get_type = explode('/', $file_type);
+                $img_type = $get_type[1];
+                $types = ["jpg", "jpeg", "png"];
+
+
+                //get size
+                $file_size =
+                    $_FILES['introimg']['size'];
+                $broken_image_path = "blogs_images/broken.png";
+
+                if (!in_array($img_type, $types) || $file_size > 150000) {
+                    $image_path = $broken_image_path;
+                } else {
+                    if (move_uploaded_file($tmp_name, $folder)) {
+                        $image_path = $folder;
+                    } else {
+                        $broken_image_path = "blogs_images/broken.png";
+                    }
+                }
+
+                $final_image_path = mysqli_real_escape_string($conn, $image_path);
+
+
+
+                $sql = "INSERT INTO introduction(title,category,image_path,body,post_id, subtitle) VALUES ('$title','$category','$final_image_path','$body',$post_id, '$subtitle')";
+
 
                 // save and check 
                 if (mysqli_query($conn, $sql)) {
@@ -90,9 +128,40 @@ if (isset($_POST['submit'])) {
                 }
                 break;
             case 'Image':
-                $image = mysqli_real_escape_string($conn, $_POST['image' . $counter[2]]);
+                $image_path = "";
 
-                $sql = "INSERT INTO image(image,post_id) VALUES ('$image',$post_id)";
+                $file_name = $_FILES['image' . $counter[2]]['name'];
+                $tmp_name =
+                    $_FILES['image' . $counter[2]]['tmp_name'];
+
+                $folder = 'blogs_images/images/' . $file_name;
+
+
+                //get type
+                $file_type
+                    = $_FILES['image' . $counter[2]]['type'];
+                $get_type = explode('/', $file_type);
+                $img_type = $get_type[1];
+                $types = ["jpg", "jpeg", "png"];
+
+                //get  file size    
+                $file_size =
+                    $_FILES['image' . $counter[2]]['size'];
+                $broken_image_path = "blogs_images/broken.png";
+
+                if (!in_array($img_type, $types) || $file_size > 150000) {
+                    $image_path = $broken_image_path;
+                } else {
+                    if (move_uploaded_file($tmp_name, $folder)) {
+                        $image_path = $folder;
+                    } else {
+                        $broken_image_path = "blogs_images/broken.png";
+                    }
+                }
+
+                $final_image_path = mysqli_real_escape_string($conn, $image_path);
+
+                $sql = "INSERT INTO image(image,post_id) VALUES ('$final_image_path',$post_id)";
 
                 $counter[2]++;
                 // save and check 
@@ -104,11 +173,48 @@ if (isset($_POST['submit'])) {
                 }
                 break;
             case 'Section':
+                $image_path = "";
                 $sectionTitle = mysqli_real_escape_string($conn, $_POST['sectiontitle' . $counter[3]]);
-                $sectionImage = mysqli_real_escape_string($conn, $_POST['sectionimage' . $counter[3]]);
                 $sectionContent = mysqli_real_escape_string($conn, $_POST['sectioncontent' . $counter[3]]);
 
-                $sql = "INSERT INTO section(sectiontitle,sectionimage,sectioncontent,post_id) VALUES ('$sectionTitle', '$sectionImage', '$sectionContent', $post_id)";
+
+
+
+                $file_name = $_FILES['sectionimage' . $counter[3]]['name'];
+                $tmp_name =
+                    $_FILES['sectionimage' . $counter[3]]['tmp_name'];
+
+                $folder = "blogs_images/section_images/" . $file_name;
+
+
+                //get type
+                $file_type
+                    =
+                    $_FILES['sectionimage' . $counter[3]]['type'];
+                $get_type = explode('/', $file_type);
+                $img_type = $get_type[1];
+                $types = ["jpg", "jpeg", "png"];
+
+                //get  file size
+                $file_size =
+                    $_FILES['sectionimage' . $counter[3]]['size'];
+                $broken_image_path = "blogs_images/broken.png";
+
+
+                if (!in_array($img_type, $types) || $file_size > 150000) {
+                    $image_path = $broken_image_path;
+                } else {
+                    if (move_uploaded_file($tmp_name, $folder)) {
+                        $image_path = $folder;
+                    } else {
+                        $broken_image_path = "blogs_images/broken.png";
+                    }
+                }
+
+                $final_image_path = mysqli_real_escape_string($conn, $image_path);
+
+
+                $sql = "INSERT INTO section(sectiontitle,sectionimage,sectioncontent,post_id) VALUES ('$sectionTitle', '$final_image_path', '$sectionContent', $post_id)";
 
                 $counter[3]++;
                 // save and check 
@@ -121,6 +227,57 @@ if (isset($_POST['submit'])) {
                 break;
 
             default:
+                $title = mysqli_real_escape_string($conn, $_POST['introtitle']);
+                $category = mysqli_real_escape_string($conn, $_POST['introcategory']);
+                $subtitle = mysqli_real_escape_string($conn, $_POST['introsubtitle']);
+                $image_path = "";
+                $body =  mysqli_real_escape_string($conn, $_POST['introcontent']);
+                $post_id =
+                    mysqli_real_escape_string($conn, $random_generated_Id);
+
+
+
+                //file image 
+                $file_name = $_FILES['introimg']['name'];
+                $tmp_name = $_FILES['introimg']['tmp_name'];
+                $folder = "blogs_images/introduction_images/" . $file_name;
+
+                //get type
+                $file_type = $_FILES['introimg']['type'];
+                $get_type = explode('/', $file_type);
+                $img_type = $get_type[1];
+                $types = ["jpg", "jpeg", "png"];
+
+
+                //get size
+                $file_size =
+                    $_FILES['introimg']['size'];
+                $broken_image_path = "blogs_images/broken.png";
+
+                if (!in_array($img_type, $types) || $file_size > 150000) {
+                    $image_path = $broken_image_path;
+                } else {
+                    if (move_uploaded_file($tmp_name, $folder)) {
+                        $image_path = $folder;
+                    } else {
+                        $broken_image_path = "blogs_images/broken.png";
+                    }
+                }
+
+                $final_image_path = mysqli_real_escape_string($conn, $image_path);
+
+
+
+                $sql = "INSERT INTO introduction(title,category,image_path,body,post_id, subtitle) VALUES ('$title','$category','$final_image_path','$body',$post_id, '$subtitle')";
+
+
+                // save and check 
+                if (mysqli_query($conn, $sql)) {
+                    // Redirect to prevent form resubmission on refresh
+                    header('Location: ' . $_SERVER['PHP_SELF']);
+                } else {
+                    echo 'Query error:' . mysqli_error($conn);
+                }
                 exit();
         }
     }
@@ -135,7 +292,7 @@ if (isset($_POST['submit'])) {
 <?php include("./templates/header.php") ?>
 
 <main class="Create Blogs" id="create_blogs">
-    <form class="create-blogs-section" id="create-blogs-section" method="post">
+    <form class="create-blogs-section" id="create-blogs-section" method="post" enctype="multipart/form-data">
 
         <div class="save-blogs">
             <input class="blogs-button" type="submit" value="Cancel" name="cancel">
