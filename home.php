@@ -61,7 +61,13 @@ $categories = [
         <div class="blog-first-container">
             <div></div>
             <div class="first-featured-blog-container">
-                <h2><?php echo htmlspecialchars($featured_blog['title']) ?></h2>
+                <h2 class="first-blog-title"><?php echo htmlspecialchars($featured_blog['title']) ?></h2>
+                <div class="user-posted-container">
+                    <p><?php echo htmlspecialchars($featured_blog['user_posted']) ?></p>
+                    <p><?php $formatted_date = date('F j, Y', strtotime($featured_blog['created_at']));
+                        echo htmlspecialchars($formatted_date); ?></p>
+
+                </div>
                 <div class="blog-img-container">
                     <img src="<?php echo htmlspecialchars($featured_blog['image_path']) ?>" class="blog-image-size">
                 </div>
@@ -70,9 +76,13 @@ $categories = [
                 <h4>
                     <?php echo htmlspecialchars($featured_blog['category']) ?>
                 </h4>
+                <div class="subtitle-container">
+                    <h2> <?php echo htmlspecialchars($featured_blog['subtitle']) ?></h2>
+                </div>
+                <div class="blog-paragraph-container">
 
-                <h2> <?php echo htmlspecialchars($featured_blog['subtitle']) ?></h2>
-                <p><?php echo htmlspecialchars($featured_blog['body']) ?></p>
+                    <p><?php echo htmlspecialchars($featured_blog['body']) ?></p>
+                </div>
             </div>
             <div></div>
         </div>
@@ -111,7 +121,6 @@ $categories = [
 
 
 
-
                     foreach ($split_postions as $pos) {
                         if ($counter == 0) {
                             $counter++;
@@ -121,14 +130,18 @@ $categories = [
                         switch ($categories[$pos]) {
                             case 'Introduction':
 
-                                $sql = "SELECT * FROM introduction WHERE post_id=$current_post_id";
-                                $introductionListresult = mysqli_query($conn, $sql);
-                                $introductionListData = mysqli_fetch_assoc($introductionListresult);
-
+                                $stmt = $conn->prepare("SELECT * FROM introduction WHERE post_id=?");
+                                $stmt->bind_param("i", $current_post_id);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                $introductionListData = $result->fetch_assoc();
 
 
                                 echo  "<div class='blog-list-container'>";
                                 echo "<h2>" . $introductionListData['title'] . "</h2>";
+                                echo "<p>" . $formatted_date = date('F j, Y', strtotime($featured_blog['created_at']));
+                                echo htmlspecialchars($formatted_date) . "</p>";
+
                                 echo  "<div class='blog-list-image-container'>";
                                 echo '<img src="' . $introductionListData['image_path'] . '" class="image-blog" />';
 
@@ -139,9 +152,11 @@ $categories = [
 
                                 break;
                             case 'Header':
-                                $sql = "SELECT * FROM header WHERE post_id=$current_post_id";
-                                $headerListResult = mysqli_query($conn, $sql);
-                                $headerListData = mysqli_fetch_assoc($headerListResult);
+                                $stmt = $conn->prepare("SELECT * FROM header WHERE post_id=?");
+                                $stmt->bind_param("i", $current_post_id);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                $headerListData = $result->fetch_assoc();;
 
                                 echo "<div class='blog-list-container'>";
                                 echo "<h2 class='header-section'>" . $headerListData['header'] . "</h2>";
@@ -150,9 +165,13 @@ $categories = [
                                 break;
 
                             case 'Paragraph':
-                                $sql = "SELECT * FROM paragraph WHERE post_id=$current_post_id";
-                                $paragraphListResult = mysqli_query($conn, $sql);
-                                $paragraphListData = mysqli_fetch_assoc($paragraphListResult);
+                                $stmt = $conn->prepare("SELECT * FROM paragraph WHERE post_id=?");
+                                $stmt->bind_param("i", $current_post_id);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                $paragraphListData = $result->fetch_assoc();
+
+
 
                                 echo "<div class='blog-list-container'>";
                                 echo "<p>" .  $paragraphListData['paragraph'] . "</p>";
@@ -161,9 +180,11 @@ $categories = [
                                 break;
 
                             case 'Image':
-                                $sql = "SELECT * FROM image WHERE post_id=$current_post_id";
-                                $imageListresult = mysqli_query($conn, $sql);
-                                $imageListData = mysqli_fetch_assoc($imageListresult);
+                                $stmt = $conn->prepare("SELECT * FROM image WHERE post_id=?");
+                                $stmt->bind_param("i", $current_post_id);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                $mageListData = $result->fetch_assoc();
 
 
                                 echo  "<div class='blog-list-image-section-container'>";
@@ -173,11 +194,11 @@ $categories = [
                                 break;
 
                             case 'Section':
-                                $sql = "SELECT * FROM section WHERE post_id=$current_post_id";
-                                $sectionListResult = mysqli_query($conn, $sql);
-                                $sectionListData = mysqli_fetch_assoc($sectionListResult);
-
-
+                                $stmt = $conn->prepare("SELECT * FROM section WHERE post_id=?");
+                                $stmt->bind_param("i", $current_post_id);
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+                                $sectionListData = $result->fetch_assoc();
 
                                 echo  "<div class='blog-list-container'>";
                                 echo "<h2>" . $sectionListData['sectiontitle'] . "</h2>";

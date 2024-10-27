@@ -24,15 +24,20 @@ if (isset($_POST['submit'])) {
     $email = mysqli_escape_string($conn, $_POST["email"]);
     $password = mysqli_escape_string($conn, $_POST["password"]);
 
-    $sql = "SELECT * FROM users WHERE email = '$email'";
 
-    $result = mysqli_query($conn, $sql);
+    //prepared statement
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data  = $result->fetch_assoc();
+
 
     if (!$result) {
         echo "query error:" . mysqli_error($conn, $sql);
     }
 
-    $data = mysqli_fetch_assoc($result);
+
 
     if (!$data) {
         echo "<script>
@@ -40,8 +45,10 @@ if (isset($_POST['submit'])) {
             </script>";
     }
 
-    //check if password thesame
-    if ($data["password"] != $password) {
+    $hashedPassword = $data["password"];
+    //decrypt
+    //check if password thesame 
+    if (!password_verify($password, $hashedPassword)) {
         $errors['password'] = "password incorrect try again";
     }
 

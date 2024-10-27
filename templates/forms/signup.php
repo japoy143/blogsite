@@ -33,15 +33,23 @@ if (isset($_POST['submit'])) {
         $errors['confirm password'] = "password must be thesame";
     }
 
-    $sql = "SELECT * FROM users WHERE email = '$email'";
-    //get the query result
-    $result = mysqli_query($conn, $sql);
+    //creating prepared statement
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_assoc();
+
+
+    // $sql = "SELECT * FROM users WHERE email = '$email'";
+    // //get the query result
+    // $result = mysqli_query($conn, $sql);
 
     if (!$result) {
         echo 'data not found' . mysqli_error($conn);
     }
 
-    $data = mysqli_fetch_assoc($result);
+    // $data = mysqli_fetch_assoc($result);
     // Check if email already exists
     if ($data) {
         $errors['email'] = "email already used";
@@ -60,20 +68,31 @@ if (isset($_POST['submit'])) {
 
         $password = mysqli_real_escape_string($conn, $_POST['password']);
 
+        $hashedPassword =  password_hash($password, PASSWORD_DEFAULT);
+        
+        //prepared statement
+        $stmt = $conn->prepare("INSERT INTO users(email, password) VALUES (?,?)");
+        $stmt->bind_param('ss', $email, $hashedPassword);
 
-        // create user
-        // or insert user in the database
-        $sql = "INSERT INTO users(email, password) VALUES ('$email', '$password')";
+
+
+
+        // // create user
+        // // or insert user in the database
+        // $sql = "INSERT INTO users(email, password) VALUES ('$email', '$password')";
 
         // save and check 
-        if (mysqli_query($conn, $sql)) {
+        if ($stmt->execute()) {
             header('Location: ./login.php ');
             echo "<script>
             window.alert('successfully created account');
             </script>";
         } else {
-            echo 'Query error:' . mysqli_error($conn);
+            echo 'Query error:' . $stmt->error;
         }
+
+
+        $stmt->close();
     }
 }
 

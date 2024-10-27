@@ -11,6 +11,7 @@ include('./models/blogType.php');
 
 
 
+$username = $_SESSION["user"];
 
 
 if (isset($_POST['submit'])) {
@@ -33,9 +34,12 @@ if (isset($_POST['submit'])) {
 
     $random_generated_Id = rand(1, 9999999);
 
-    $sql = "INSERT INTO blog_position(post_id,placement) VALUES ($random_generated_Id,'$positions')";
-    // save and check 
-    if (mysqli_query($conn, $sql)) {
+    //prepared statements
+    $stmt = $conn->prepare("INSERT INTO blog_position(post_id,placement) VALUES (?,?)");
+    $stmt->bind_param("is", $random_generated_Id, $positions);
+
+
+    if ($stmt->execute()) {
         // Redirect to prevent form resubmission on refresh
         header('Location: ' . $_SERVER['PHP_SELF']);
     } else {
@@ -87,26 +91,30 @@ if (isset($_POST['submit'])) {
                 $final_image_path = mysqli_real_escape_string($conn, $image_path);
 
 
+                //pdo
+                $stmt = $conn->prepare('INSERT INTO introduction(title,category,image_path,body,post_id,subtitle,user_posted) VALUES (?,?,?,?,?,?,?)');
+                $stmt->bind_param('ssssiss', $title, $category, $image_path, $body, $post_id, $subtitle, $username);
 
-                $sql = "INSERT INTO introduction(title,category,image_path,body,post_id, subtitle) VALUES ('$title','$category','$final_image_path','$body',$post_id, '$subtitle')";
 
 
                 // save and check 
-                if (mysqli_query($conn, $sql)) {
+                if ($stmt->execute()) {
                     // Redirect to prevent form resubmission on refresh
                     header('Location: ' . $_SERVER['PHP_SELF']);
                 } else {
-                    echo 'Query error:' . mysqli_error($conn);
+                    echo 'Query error:' . $stmt->error;
                 }
                 break;
             case 'Header':
                 $header = mysqli_real_escape_string($conn, $_POST['header' . $counter[0]]);
 
-                $sql = "INSERT INTO header(header,post_id) VALUES ('$header',$post_id)";
+                $stmt = $conn->prepare("INSERT INTO header(header,post_id) VALUES (?,?)");
+                $stmt->bind_param('si', $header, $post_id);
+
 
                 $counter[0]++;
                 // save and check 
-                if (mysqli_query($conn, $sql)) {
+                if ($stmt->execute()) {
                     // Redirect to prevent form resubmission on refresh
                     header('Location: ' . $_SERVER['PHP_SELF']);
                 } else {
@@ -116,11 +124,14 @@ if (isset($_POST['submit'])) {
             case 'Paragraph':
                 $paragraph = mysqli_real_escape_string($conn, $_POST['paragraph' . $counter[1]]);
 
-                $sql = "INSERT INTO paragraph(paragraph,post_id) VALUES ('$paragraph',$post_id)";
+                $stmt = $conn->prepare("INSERT INTO paragraph(paragraph,post_id) VALUES (?,?)");
+                $stmt->bind_param("si", $paragraph, $post_id);
+
+
 
                 $counter[1]++;
                 // save and check 
-                if (mysqli_query($conn, $sql)) {
+                if ($stmt->execute()) {
                     // Redirect to prevent form resubmission on refresh
                     header('Location: ' . $_SERVER['PHP_SELF']);
                 } else {
@@ -161,11 +172,14 @@ if (isset($_POST['submit'])) {
 
                 $final_image_path = mysqli_real_escape_string($conn, $image_path);
 
-                $sql = "INSERT INTO image(image,post_id) VALUES ('$final_image_path',$post_id)";
+                $stmt = $conn->prepare("INSERT INTO image(image,post_id) VALUES (?,?)");
+                $stmt->bind_param("si", $final_image_path, $post_id);
+
+
 
                 $counter[2]++;
                 // save and check 
-                if (mysqli_query($conn, $sql)) {
+                if ($stmt->execute()) {
                     // Redirect to prevent form resubmission on refresh
                     header('Location: ' . $_SERVER['PHP_SELF']);
                 } else {
@@ -213,12 +227,14 @@ if (isset($_POST['submit'])) {
 
                 $final_image_path = mysqli_real_escape_string($conn, $image_path);
 
+                $stmt = $conn->prepare("INSERT INTO section(sectiontitle,sectionimage,sectioncontent,post_id) VALUES (?,?,?,?)");
+                $stmt->bind_param("sssi", $sectionTitle, $final_image_path, $sectionContent, $post_id);
 
-                $sql = "INSERT INTO section(sectiontitle,sectionimage,sectioncontent,post_id) VALUES ('$sectionTitle', '$final_image_path', '$sectionContent', $post_id)";
+
 
                 $counter[3]++;
                 // save and check 
-                if (mysqli_query($conn, $sql)) {
+                if ($stmt->execute()) {
                     // Redirect to prevent form resubmission on refresh
                     header('Location: ' . $_SERVER['PHP_SELF']);
                 } else {
@@ -266,13 +282,15 @@ if (isset($_POST['submit'])) {
 
                 $final_image_path = mysqli_real_escape_string($conn, $image_path);
 
+                $stmt = $conn->prepare("INSERT INTO introduction(title,category,image_path,body,post_id,subtitle,user_posted) VALUES (?,?,?,?,?,?,?)");
+                $stmt->bind_param("ssssiss", $title, $category, $final_image_path, $body, $post_id, $subtitle, $username);
 
 
-                $sql = "INSERT INTO introduction(title,category,image_path,body,post_id, subtitle) VALUES ('$title','$category','$final_image_path','$body',$post_id, '$subtitle')";
+
 
 
                 // save and check 
-                if (mysqli_query($conn, $sql)) {
+                if ($stmt->execute()) {
                     // Redirect to prevent form resubmission on refresh
                     header('Location: ' . $_SERVER['PHP_SELF']);
                 } else {
