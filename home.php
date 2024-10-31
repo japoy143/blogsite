@@ -11,6 +11,7 @@ $result = mysqli_query($conn, $sql);
 
 $allblogs = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
+
 print_r($allblogs);
 
 mysqli_free_result($result);
@@ -23,8 +24,6 @@ if ($allblogs) {
     $result = mysqli_query($conn, $sql);
 
     $featured_blog = mysqli_fetch_assoc($result);
-
-    print_r($featured_blog);
 }
 
 
@@ -139,7 +138,7 @@ $categories = [
 
                                 echo  "<div class='blog-list-container'>";
                                 echo "<h2>" . $introductionListData['title'] . "</h2>";
-                                echo "<p>" . $formatted_date = date('F j, Y', strtotime($featured_blog['created_at']));
+                                echo "<p>" . $formatted_date = date('F j, Y', strtotime($introductionListData['created_at']));
                                 echo htmlspecialchars($formatted_date) . "</p>";
 
                                 echo  "<div class='blog-list-image-container'>";
@@ -158,7 +157,7 @@ $categories = [
                                 $result = $stmt->get_result();
                                 $headerListData = $result->fetch_assoc();;
 
-                                echo "<div class='blog-list-container'>";
+                                echo "<div class='text-list-container'>";
                                 echo "<h2 class='header-section'>" . $headerListData['header'] . "</h2>";
                                 echo "</div>";
 
@@ -173,7 +172,7 @@ $categories = [
 
 
 
-                                echo "<div class='blog-list-container'>";
+                                echo "<div class='text-list-container'>";
                                 echo "<p>" .  $paragraphListData['paragraph'] . "</p>";
                                 echo "</div>";
 
@@ -184,7 +183,7 @@ $categories = [
                                 $stmt->bind_param("i", $current_post_id);
                                 $stmt->execute();
                                 $result = $stmt->get_result();
-                                $mageListData = $result->fetch_assoc();
+                                $imageListData = $result->fetch_assoc();
 
 
                                 echo  "<div class='blog-list-image-section-container'>";

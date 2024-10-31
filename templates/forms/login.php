@@ -34,15 +34,19 @@ if (isset($_POST['submit'])) {
 
 
     if (!$result) {
-        echo "query error:" . mysqli_error($conn, $sql);
+        echo "query error:" . $stmt->error;
+        header('Location: ./login.php ');
+
+        exit();
     }
 
 
 
     if (!$data) {
-        echo "<script>
-            window.alert('email not found');
-            </script>";
+
+        header('Location: ./login.php ');
+
+        exit();
     }
 
     $hashedPassword = $data["password"];

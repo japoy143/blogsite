@@ -38,7 +38,6 @@ if (isset($_POST['logout'])) {
             </li>
             <li id="link-items">
                 <a href="./home.php">Home</a>
-                <a href="./featured.php">Featured</a>
                 <a href="./categories.php">Categories</a>
                 <a href="./create_blogs.php">Create Blogs</a>
             </li>
@@ -55,8 +54,8 @@ if (isset($_POST['logout'])) {
     </nav>
 
     <div id="user-actions">
+        <a href="./home.php"></a>
         <a href="./home.php">Home</a>
-        <a href="./featured.php">Featured</a>
         <a href="./categories.php">Categories</a>
         <a href="./create_blogs.php">Create Blogs</a>
         <a href="./account_page.php">Account</a>

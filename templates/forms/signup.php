@@ -46,7 +46,7 @@ if (isset($_POST['submit'])) {
     // $result = mysqli_query($conn, $sql);
 
     if (!$result) {
-        echo 'data not found' . mysqli_error($conn);
+        echo 'data not found' . $stmt->error;
     }
 
     // $data = mysqli_fetch_assoc($result);
@@ -69,7 +69,7 @@ if (isset($_POST['submit'])) {
         $password = mysqli_real_escape_string($conn, $_POST['password']);
 
         $hashedPassword =  password_hash($password, PASSWORD_DEFAULT);
-        
+
         //prepared statement
         $stmt = $conn->prepare("INSERT INTO users(email, password) VALUES (?,?)");
         $stmt->bind_param('ss', $email, $hashedPassword);
