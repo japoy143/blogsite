@@ -12,7 +12,7 @@ $result = mysqli_query($conn, $sql);
 $allblogs = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 
-print_r($allblogs);
+
 
 mysqli_free_result($result);
 
@@ -80,7 +80,9 @@ $categories = [
                 </div>
                 <div class="blog-paragraph-container">
 
-                    <p><?php echo htmlspecialchars($featured_blog['body']) ?></p>
+                    <p><?php
+                        $text = str_replace(['\\r\\n', '\\n'], "\n", $featured_blog['body']);
+                        echo nl2br(htmlspecialchars($text)) ?></p>
                 </div>
             </div>
             <div></div>
@@ -110,7 +112,9 @@ $categories = [
                         <div class="blog-list-image-container">
                             <img src="<?php echo $FirstintroductionData['image_path'] ?>" class="image-blog" />
                         </div>
-                        <p><?php echo $FirstintroductionData['body'] ?></p>
+                        <p><?php
+                            $text = str_replace(['\\r\\n', '\\n'], "\n", htmlspecialchars($FirstintroductionData['body']));
+                            echo $text ?></p>
 
                     </div>
 
@@ -135,9 +139,11 @@ $categories = [
                                 $result = $stmt->get_result();
                                 $introductionListData = $result->fetch_assoc();
 
+                                $text = str_replace(['\\r\\n', '\\n'], "\n", htmlspecialchars($introductionListData['body']));
 
                                 echo  "<div class='blog-list-container'>";
                                 echo "<h2>" . $introductionListData['title'] . "</h2>";
+                                echo "<h4  class='category-font'>" . $introductionListData['category'] . "</h4>";
                                 echo "<p>" . $formatted_date = date('F j, Y', strtotime($introductionListData['created_at']));
                                 echo htmlspecialchars($formatted_date) . "</p>";
 
@@ -145,7 +151,7 @@ $categories = [
                                 echo '<img src="' . $introductionListData['image_path'] . '" class="image-blog" />';
 
                                 echo "</div>";
-                                echo "<p>" . $introductionListData['body'] . "</p>";
+                                echo "<p>" . nl2br($text) . "</p>";
 
                                 echo "</div>";
 
@@ -198,6 +204,8 @@ $categories = [
                                 $stmt->execute();
                                 $result = $stmt->get_result();
                                 $sectionListData = $result->fetch_assoc();
+                                $text =
+                                    str_replace(['\\r\\n', '\\n'], "\n", htmlspecialchars($sectionListData['sectioncontent']));
 
                                 echo  "<div class='blog-list-container'>";
                                 echo "<h2>" . $sectionListData['sectiontitle'] . "</h2>";
@@ -205,7 +213,7 @@ $categories = [
                                 echo '<img src="' . $sectionListData['sectionimage'] . '" class="image-blog" />';
 
                                 echo "</div>";
-                                echo "<p>" . $sectionListData['sectioncontent'] . "</p>";
+                                echo "<p>" . nl2br($sectionListData['sectioncontent']) . "</p>";
 
                                 echo "</div>";
                                 break;

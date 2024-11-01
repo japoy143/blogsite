@@ -59,6 +59,8 @@ if (isset($_POST['submit'])) {
     if (!array_filter($errors)) {
         $_SESSION["user"] = $data["email"];
         $_SESSION["isLogin"] = true;
+        $_SESSION["user_id"] = $data['id'];
+
         header("Location:../../home.php");
     }
 }

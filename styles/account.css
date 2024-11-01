@@ -6,10 +6,11 @@
 }
 
 body {
-  padding: 20px 10px 10px 80px;
+  padding: 0px;
   font-family: "Poppins", sans-serif;
   height: 100vh;
   width: 100%;
+  overflow-x: hidden;
 }
 
 h2,
@@ -17,10 +18,24 @@ h3 {
   font-weight: 600;
 }
 
+.heading {
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.heading a {
+  text-decoration: none;
+  color: black;
+  font-size: large;
+  font-weight: 600;
+}
+
 .profile_container {
-  height: 170px;
+  height: 270px;
   padding: 0px 20px;
-  width: 50%;
+  width: 90%;
   border: gainsboro solid 2px;
   border-radius: 10px;
   margin: 20px 0px;
@@ -69,18 +84,78 @@ input[type="file"] {
 }
 
 .account-info {
-  height: 100px;
   width: 100%;
   margin-left: 30px;
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: space-between;
+}
+
+.account-info input[type="submit"] {
+  margin-bottom: 20px;
+  width: 60px;
+  background-color: black;
+  height: 30px;
+  color: white;
+  border-radius: 4px;
+  border: none;
+  font-weight: 600;
 }
 
 .update-account {
   height: 100%;
-  width: 20%;
+  width: 40%;
   display: flex;
-  align-items: end;
+  align-items: center;
   justify-content: end;
+}
+
+.information-container input {
+  display: block;
+  margin-bottom: 10px;
+  width: 140px;
+}
+
+.information-container {
+  font-weight: 500;
+}
+
+.information-container p {
+  color: green;
+}
+
+.user-image-profile {
+  min-width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media screen and (min-width: 480px) {
+}
+
+@media screen and (min-width: 760px) {
+  body {
+    padding: 20px 10px 10px 80px;
+  }
+
+  .profile_container {
+    width: 60%;
+  }
+
+  .information-container input {
+    width: 240px;
+  }
+  .user-image-profile {
+    min-width: 200px;
+  }
+  .account-info input[type="submit"] {
+    width: 100px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .profile_container {
+    width: 50%;
+  }
 }
