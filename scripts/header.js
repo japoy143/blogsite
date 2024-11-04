@@ -25,29 +25,40 @@ document.addEventListener("DOMContentLoaded", function () {
   const loginSignupContainer = document.getElementById(
     "login-signup-container"
   );
-  const userAccount = document.getElementById("user-account");
+  //user account
+  const userAccount = document.querySelectorAll("#user-account");
+  const userAvatarContainer = document.querySelector(
+    ".user-header-avatar-container"
+  );
 
+  //header visibility options
+  //hide or show user avatar name and image
   headerBody.childNodes.forEach(function (e) {
     if (e.nodeName == "MAIN") {
       let main = e.className;
       if (main === "landing-container") {
         linkItems.style.visibility = "hidden";
         loginSignupContainer.style.visibility = "inherit";
-        userAccount.style.display = "none";
+        userAccount[0].style.display = "none";
+        userAccount[1].style.display = "none";
+        userAvatarContainer.style.display = "none";
       }
     }
   });
 
   let isUserSectionShown = false;
 
-  //user account
-  const navUserAccount = document.getElementById("user-account");
-
   //user actions section
   const userActionSection = document.getElementById("user-actions");
 
   //nav user account button
-  navUserAccount.addEventListener("click", function (e) {
+  userAccount[0].addEventListener("click", function (e) {
+    isUserSectionShown = !isUserSectionShown;
+    userActionSection.style.display = isUserSectionShown ? "flex" : "none";
+    console.log("click");
+  });
+
+  userAccount[1].addEventListener("click", function (e) {
     isUserSectionShown = !isUserSectionShown;
     userActionSection.style.display = isUserSectionShown ? "flex" : "none";
     console.log("click");

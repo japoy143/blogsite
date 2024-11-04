@@ -60,6 +60,7 @@ if (isset($_POST['submit'])) {
         $_SESSION["user"] = $data["email"];
         $_SESSION["isLogin"] = true;
         $_SESSION["user_id"] = $data['id'];
+        $_SESSION["user_avatar"] = $data['user_profile'];
 
         header("Location:../../home.php");
     }

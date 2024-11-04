@@ -169,6 +169,22 @@ body {
   text-decoration: none;
 }
 
+.user-header-avatar-container {
+  height: 50px;
+  width: 50px;
+  display: none;
+  background-color: #e78f81;
+  border-radius: 100%;
+  margin-left: 4px;
+}
+
+.user-header-img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 100%;
+}
+
 #recent {
   color: #e78f81;
   font-weight: bold;
@@ -773,7 +789,7 @@ body {
   color: rebeccapurple;
 }
 
-.category-font{
+.category-font {
   color: #e78f81;
   line-height: 0;
   font-size: 14px !important;
@@ -918,6 +934,9 @@ body {
   }
   .blog-first-container {
     margin: 10px 40px;
+  }
+  .user-header-avatar-container {
+    display: block;
   }
 }
 

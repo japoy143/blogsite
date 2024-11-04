@@ -3,6 +3,9 @@
 
 $username = $_SESSION["user"] ?? "@email.com";
 $isLogin = $_SESSION["isLogin"] ?? false;
+$user_avatar = isset($_SESSION["user_avatar"]) && $_SESSION["user_avatar"] != null
+    ? $_SESSION["user_avatar"]
+    : "./assets/icons/account.svg";
 
 
 
@@ -43,6 +46,9 @@ if (isset($_POST['logout'])) {
             </li>
             <li id="login-signup">
                 <p id="user-account"><?php echo htmlspecialchars($username) ?></p>
+                <div class="user-header-avatar-container">
+                    <img src="<?php echo $user_avatar ?>" class="user-header-img " id="user-account">
+                </div>
                 <div id="login-signup-container">
                     <a href="./templates/forms/signup.php">Sign Up</a>
                     <a href="./templates/forms/login.php">Login</a>
